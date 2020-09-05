@@ -3,10 +3,232 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<section class="main-wrapper">
-    <h1>1-st lab</h1>
-</section>
+<main class="main-wrapper">
+    <section class="top-weather">
+        <div class="top-weather__top-block">
+            <span class="nobold-title">Погода здесь</span>
+            <div class="grey-btn">Обновить геолокацию</div>
+        </div>
+        <div class="top-weather__left-block">
+            <span class="bold-title">Saint Petersburg</span>
+            <div class="weather-icon">иконка погоды</div>
+            <div class="big-degrees">8&#xb0; C</div>
+        </div>
+        <div class="top-weather__right-block weather-info">
+            <div class="info-item">
+                <div class="info-item__name">Ветер</div>
+                <div class="info-item__value">Moderate breeze, 6.0 m/s, North-northwest</div>
+            </div>
+            <div class="info-item">
+                <div class="info-item__name">Облачность</div>
+                <div class="info-item__value">Broken clouds</div>
+            </div>
+            <div class="info-item">
+                <div class="info-item__name">Давление</div>
+                <div class="info-item__value">1013 hpa</div>
+            </div>
+            <div class="info-item">
+                <div class="info-item__name">Владность</div>
+                <div class="info-item__value">52%</div>
+            </div>
+            <div class="info-item">
+                <div class="info-item__name">Координаты</div>
+                <div class="info-item__value">[56.98, 30.42]</div>
+            </div>
+        </div>
+    </section>
+    <section class="favorites">
+        <div class="favorites__top-block">
+            <div class="nobold-title">Избранное</div>
+            <form class="add-new-town">
+                <input class="new-town" name="name" placeholder="Добавить новый город">
+                <button class="add-new-button">+</button>
+            </form>
+        </div>
+        <div class="city-weather">
+            <div class="city-weather__top-block">
+                <span class="bold-title">Moscow</span>
+                <div class="degrees">5&#xb0; C</div>
+                <div class="mini-weather-icon"></div>
+                <div class="delete-button">X</div>
+            </div>
+            <div class="weather-info">
+                <div class="info-item">
+                    <div class="info-item__name">Ветер</div>
+                    <div class="info-item__value">Moderate breeze, 6.0 m/s, North-northwest</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item__name">Облачность</div>
+                    <div class="info-item__value">Broken clouds</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item__name">Давление</div>
+                    <div class="info-item__value">1013 hpa</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item__name">Владность</div>
+                    <div class="info-item__value">52%</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item__name">Координаты</div>
+                    <div class="info-item__value">[56.98, 30.42]</div>
+                </div>
+            </div>
+        </div>
+        <div class="city-weather">
+            <div class="city-weather__top-block">
+                <span class="bold-title">Helsinki</span>
+                <div class="degrees">3&#xb0; C</div>
+                <div class="mini-weather-icon"></div>
+                <div class="delete-button">X</div>
+            </div>
+            <div class="weather-info">
+                <div class="info-item">
+                    <div class="info-item__name">Ветер</div>
+                    <div class="info-item__value">Moderate breeze, 6.0 m/s, North-northwest</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item__name">Облачность</div>
+                    <div class="info-item__value">Broken clouds</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item__name">Давление</div>
+                    <div class="info-item__value">1013 hpa</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item__name">Владность</div>
+                    <div class="info-item__value">52%</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item__name">Координаты</div>
+                    <div class="info-item__value">[56.98, 30.42]</div>
+                </div>
+            </div>
+        </div>
+        <div class="city-weather">
+            <div class="city-weather__top-block">
+                <span class="bold-title">Moscow</span>
+                <div class="degrees">5&#xb0; C</div>
+                <div class="mini-weather-icon"></div>
+                <div class="delete-button">X</div>
+            </div>
+            <div class="weather-info">
+                <div class="info-item">
+                    <div class="info-item__name">Ветер</div>
+                    <div class="info-item__value">Moderate breeze, 6.0 m/s, North-northwest</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item__name">Облачность</div>
+                    <div class="info-item__value">Broken clouds</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item__name">Давление</div>
+                    <div class="info-item__value">1013 hpa</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item__name">Владность</div>
+                    <div class="info-item__value">52%</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item__name">Координаты</div>
+                    <div class="info-item__value">[56.98, 30.42]</div>
+                </div>
+            </div>
+        </div>
+        <div class="city-weather">
+            <div class="city-weather__top-block">
+                <span class="bold-title">Helsinki</span>
+                <div class="degrees">3&#xb0; C</div>
+                <div class="mini-weather-icon"></div>
+                <div class="delete-button">X</div>
+            </div>
+            <div class="weather-info">
+                <div class="info-item">
+                    <div class="info-item__name">Ветер</div>
+                    <div class="info-item__value">Moderate breeze, 6.0 m/s, North-northwest</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item__name">Облачность</div>
+                    <div class="info-item__value">Broken clouds</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item__name">Давление</div>
+                    <div class="info-item__value">1013 hpa</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item__name">Владность</div>
+                    <div class="info-item__value">52%</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item__name">Координаты</div>
+                    <div class="info-item__value">[56.98, 30.42]</div>
+                </div>
+            </div>
+        </div>
+        <div class="city-weather">
+            <div class="city-weather__top-block">
+                <span class="bold-title">Moscow</span>
+                <div class="degrees">5&#xb0; C</div>
+                <div class="mini-weather-icon"></div>
+                <div class="delete-button">X</div>
+            </div>
+            <div class="weather-info">
+                <div class="info-item">
+                    <div class="info-item__name">Ветер</div>
+                    <div class="info-item__value">Moderate breeze, 6.0 m/s, North-northwest</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item__name">Облачность</div>
+                    <div class="info-item__value">Broken clouds</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item__name">Давление</div>
+                    <div class="info-item__value">1013 hpa</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item__name">Владность</div>
+                    <div class="info-item__value">52%</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item__name">Координаты</div>
+                    <div class="info-item__value">[56.98, 30.42]</div>
+                </div>
+            </div>
+        </div>
+        <div class="city-weather">
+            <div class="city-weather__top-block">
+                <span class="bold-title">Helsinki</span>
+                <div class="degrees">3&#xb0; C</div>
+                <div class="mini-weather-icon"></div>
+                <div class="delete-button">X</div>
+            </div>
+            <div class="weather-info">
+                <div class="info-item">
+                    <div class="info-item__name">Ветер</div>
+                    <div class="info-item__value">Moderate breeze, 6.0 m/s, North-northwest</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item__name">Облачность</div>
+                    <div class="info-item__value">Broken clouds</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item__name">Давление</div>
+                    <div class="info-item__value">1013 hpa</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item__name">Владность</div>
+                    <div class="info-item__value">52%</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-item__name">Координаты</div>
+                    <div class="info-item__value">[56.98, 30.42]</div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
 </body>
 </html>
