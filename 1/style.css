@@ -2,6 +2,32 @@
     box-sizing: border-box;
 }
 
+button {
+    font: inherit;
+    padding: 0;
+    border: none;
+}
+
+button:active,
+button:focus {
+    outline: none;
+}
+
+ul {
+    padding: 0;
+}
+
+ul li {
+    list-style-type: none;
+}
+
+h1,
+h2,
+h3 {
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
 .main-wrapper {
     padding: 20px;
     border-top: 2px solid #ccc;
@@ -22,13 +48,14 @@
 }
 
 .arrows-ico {
-    display:none;
+    display: none;
 }
 
 .nobold-title {
     font-size: 32px;
     color: #828282;
     flex-basis: 40%;
+    font-weight: normal;
 }
 
 .grey-btn {
@@ -116,7 +143,7 @@
 
 .new-town {
     border: none;
-    background-color:#ccc;
+    background-color: #ccc;
     padding: 10px;
     flex-basis: 80%;
 }
@@ -190,10 +217,20 @@
     height: auto;
 }
 
-@media (max-width: 768px){
+@media (max-width: 768px) {
     .top-weather__left-block,
     .top-weather__right-block,
     .city-weather {
+        flex-basis: 100%;
+    }
+
+
+    .favorites__top-block {
+        flex-wrap: wrap;
+    }
+
+    .add-new-town {
+        margin-top: 20px;
         flex-basis: 100%;
     }
 
