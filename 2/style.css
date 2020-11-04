@@ -187,7 +187,8 @@ h3 {
     color: #777777;
     font-weight: bold;
     font-size: 36px;
-    flex-basis: 25%;
+    margin-top:auto;
+    margin-bottom: auto;
 }
 
 .delete-button {
@@ -207,8 +208,9 @@ h3 {
 }
 
 .icon-container {
-    flex-basis: 25%;
     height: auto;
+    margin-top:auto;
+    margin-bottom: auto;
 }
 
 .mini-weather-icon {
