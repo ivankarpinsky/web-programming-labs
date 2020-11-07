@@ -83,7 +83,8 @@ h3 {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin-bottom: 10px
+    margin-bottom: 10px;
+    position: relative;
 }
 
 .top-weather__left-block {
@@ -171,16 +172,21 @@ h3 {
 .city-weather {
     flex-basis: 45%;
     margin-bottom: 30px;
+    position: relative;
+    min-height: 345px;
 }
 
 .city-weather__top-block {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
+    height: 80px;
 }
 
 .top-block__city-name {
     flex-basis: 33%;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .degrees {
@@ -219,6 +225,29 @@ h3 {
     height: auto;
 }
 
+.preloader {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 999;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    background: #fff url('//cdnjs.cloudflare.com/ajax/libs/file-uploader/3.7.0/processing.gif') no-repeat center center;
+}
+
+.preloader-visible {
+    visibility: visible;
+    opacity: 1;
+    /*transition: opacity 2s linear;*/
+}
+
+.preloader-hidden {
+    visibility: hidden;
+    opacity: 0;
+    /*transition: visibility 0s 2s, opacity 2s linear;*/
+}
+
 @media (max-width: 768px) {
     .top-weather__left-block,
     .top-weather__right-block,
@@ -255,3 +284,4 @@ h3 {
         height: auto;
     }
 }
+

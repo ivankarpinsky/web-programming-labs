@@ -28,7 +28,8 @@ window.onload = async function () {
 
     let newTownButton = document.getElementById('add-new-town-button');
     let newTownInput = document.getElementById('add-new-town-input');
-    newTownButton.onclick = () => {
+    newTownButton.onclick = (e) => {
+        e.preventDefault();
         let towns = JSON.parse(localStorage.getItem('towns'));
         if (towns == null) {
             localStorage.setItem('towns', JSON.stringify([newTownInput.value]))
@@ -37,12 +38,8 @@ window.onload = async function () {
             localStorage.setItem('towns', JSON.stringify(towns));
         }
         console.log(localStorage.getItem('towns'));
+        location.reload();
     };
-
-    // let keys = Object.keys(localStorage);
-    // for(let key of keys) {
-    //     console.log(`${key}: ${localStorage.getItem(key)}`);
-    // }
 };
 
 function setCurrentWeather(data) {
@@ -51,11 +48,14 @@ function setCurrentWeather(data) {
     let img = leftBlock.querySelector('img');
     let degrees = leftBlock.querySelector('.big-degrees');
     h3.innerText = data.city.name;
-    // сделать img в зависимости от погоды
+    img.src = 'http://openweathermap.org/img/wn/' + data.list[0].weather[0].icon + '@4x.png';
     degrees.innerText = data.list[0].main.temp + '° C';
 
     let topRightBlock = document.querySelector("#top-weather__right-block");
-    setCardInfo(topRightBlock, data)
+    setCardInfo(topRightBlock, data);
+    let preloader = document.querySelector('.preloader');
+    preloader.classList.remove('preloader-visible');
+    preloader.classList.add('preloader-hidden');
 }
 
 function setCardInfo(block, data) {
@@ -99,12 +99,12 @@ async function setFavoritesWeather() {
     for (const town of towns) {
         let response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?cnt=1&units=metric&q=${town}&APPID=32b02a634c5c7d86825705458b818411`);
         let townTemplate = document.querySelector('#city-weather-template');
+        let emptyTown = townTemplate.cloneNode(true);
         let data, cityName, degrees, img, ul;
 
         if (response.ok) {
             data = await response.json();
-            console.log(data);
-
+            favorites.appendChild(document.importNode(emptyTown.content, true));
             cityName = townTemplate.content.querySelector('.top-block__city-name');
             degrees = townTemplate.content.querySelector('.degrees');
             img = townTemplate.content.querySelector('img');
@@ -114,17 +114,63 @@ async function setFavoritesWeather() {
 
             setCardInfo(ul, data);
 
-            cityName.innerText = data.city.name;
-            // сделать img в зависимости от погоды
+            cityName.innerText = town;
+            img.src = 'http://openweathermap.org/img/wn/' + data.list[0].weather[0].icon + '@2x.png';
             degrees.innerText = data.list[0].main.temp + '° C';
-            clones.push(document.importNode(townTemplate.content, true));
+            let preloader = townTemplate.content.querySelector('.preloader');
+            preloader.classList.remove('preloader-visible');
+            preloader.classList.add('preloader-hidden');
+            await sleep(500);
+            favorites.removeChild(favorites.lastElementChild);
+            favorites.appendChild(document.importNode(townTemplate.content, true));
+            preloader.classList.add('preloader-visible');
+            preloader.classList.remove('preloader-hidden');
         } else {
+            favorites.appendChild(document.importNode(emptyTown.content, true));
+            cityName = townTemplate.content.querySelector('.top-block__city-name');
+            cityName.innerText = town;
+            degrees = townTemplate.content.querySelector('.degrees');
+            img = townTemplate.content.querySelector('img');
+            ul = townTemplate.content.querySelector('ul');
+            degrees.innerHTML = '';
+            ul.innerHTML = '';
+            img.src = '';
+
+
+            let errorMessage = townTemplate.content.querySelector('.error-info');
+            errorMessage.innerHTML = 'По данному городу не удалось загрузить данные с api';
+            let preloader = townTemplate.content.querySelector('.preloader');
+            preloader.classList.remove('preloader-visible');
+            preloader.classList.add('preloader-hidden');
+            await sleep(500);
+            favorites.removeChild(favorites.lastElementChild);
+            favorites.appendChild(document.importNode(townTemplate.content, true));
+            errorMessage.innerHTML = '';
+            preloader.classList.add('preloader-visible');
+            preloader.classList.remove('preloader-hidden');
             console.log("Города нет в апи: " + town + '  ' + response.status);
-            continue;
         }
     }
 
-    clones.forEach((item) => favorites.appendChild(item));
+    let deleteButtons = document.getElementsByClassName('delete-button');
+    for (let j = 0; j < deleteButtons.length; j++) {
+        deleteButtons[j].onclick = (e) => {
+            let cityName = deleteButtons[j].previousElementSibling.previousElementSibling.previousElementSibling;
+            // console.log(cityName);
+            // console.log(deleteButtons[j].previousSibling.previousSibling.previousSibling);
+            // console.log(deleteButtons[j].previousSibling.previousSibling);
+            // console.log(deleteButtons[j].previousSibling);
+            e.preventDefault();
+            let towns = JSON.parse(localStorage.getItem('towns'));
+            let position = towns.indexOf(cityName.innerText);
+
+            if (~position) towns.splice(position, 1);
+            localStorage.setItem('towns', JSON.stringify(towns));
+            console.log(localStorage.getItem('towns'));
+            location.reload();
+        };
+    }
+    // clones.forEach((item) => favorites.appendChild(item));
 }
 
 function setCookie(cname, cvalue, exdays) {
@@ -148,4 +194,8 @@ function getCookie(cname) {
         }
     }
     return "";
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }

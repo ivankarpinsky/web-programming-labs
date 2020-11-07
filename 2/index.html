@@ -16,6 +16,7 @@
                     class="grey-btn-text">Обновить геолокацию</span></button>
         </div>
         <div class="top-weather__main-block">
+            <div class="preloader preloader-visible" id="preloader-top"></div>
             <div class="top-weather__left-block" id="top-weather__left-block">
                 <h3 class="bold-title" id="cur-city"></h3>
                 <div class="top-weather__left-block_main">
@@ -47,12 +48,14 @@
 </template>
 <template id="city-weather-template">
     <div class="city-weather">
+        <div class="preloader preloader-visible"></div>
         <div class="city-weather__top-block">
             <h3 class="bold-title top-block__city-name"></h3>
             <div class="degrees"></div>
             <div class="icon-container"><img src="0013.ico" class="mini-weather-icon"></div>
             <div class="delete-button">+</div>
         </div>
+        <div class="error-info"></div>
         <ul class="weather-info">
         </ul>
     </div>
