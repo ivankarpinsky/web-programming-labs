@@ -40,6 +40,11 @@ window.onload = async function () {
         console.log(localStorage.getItem('towns'));
         location.reload();
     };
+    let reloadButton = document.getElementById('reload-geo');
+    reloadButton.onclick = function () {
+        setCookie('agree', true, -1);
+        location.reload();
+    }
 };
 
 function setCurrentWeather(data) {
