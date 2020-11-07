@@ -156,10 +156,6 @@ async function setFavoritesWeather() {
     for (let j = 0; j < deleteButtons.length; j++) {
         deleteButtons[j].onclick = (e) => {
             let cityName = deleteButtons[j].previousElementSibling.previousElementSibling.previousElementSibling;
-            // console.log(cityName);
-            // console.log(deleteButtons[j].previousSibling.previousSibling.previousSibling);
-            // console.log(deleteButtons[j].previousSibling.previousSibling);
-            // console.log(deleteButtons[j].previousSibling);
             e.preventDefault();
             let towns = JSON.parse(localStorage.getItem('towns'));
             let position = towns.indexOf(cityName.innerText);
@@ -170,7 +166,6 @@ async function setFavoritesWeather() {
             location.reload();
         };
     }
-    // clones.forEach((item) => favorites.appendChild(item));
 }
 
 function setCookie(cname, cvalue, exdays) {
