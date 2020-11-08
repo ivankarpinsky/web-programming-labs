@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js"></script>
+</head>
+<body>
+<main class="main-wrapper">
+    <div class="vl"></div>
+    <section class="top-weather">
+        <div class="top-weather__top-block">
+            <h1 class="nobold-title weather-here">Погода здесь</h1>
+            <button class="grey-btn" id="reload-geo"><img class="arrows-ico" src="twocirclingarrows_120593.ico"><span
+                    class="grey-btn-text">Обновить геолокацию</span></button>
+        </div>
+        <div class="top-weather__main-block">
+            <div class="preloader preloader-visible" id="preloader-top"></div>
+            <div class="top-weather__left-block" id="top-weather__left-block">
+                <h3 class="bold-title" id="cur-city"></h3>
+                <div class="top-weather__left-block_main">
+                    <img src="0013.ico" id="cur-weather-icon" class="weather-icon">
+                    <div class="big-degrees" id="cur-degrees"></div>
+                </div>
+            </div>
+            <ul class="top-weather__right-block weather-info" id="top-weather__right-block">
+            </ul>
+        </div>
+    </section>
+    <section class="favorites">
+        <div class="favorites__top-block">
+            <h2 class="nobold-title">Избранное</h2>
+            <div class="add-new-town">
+                <input class="new-town" id="add-new-town-input" name="name" placeholder="Добавить новый город">
+                <button id="add-new-town-button" class="add-new-button">+</button>
+            </div>
+        </div>
+        <div class="city-weather-wrapper" id="favorite-towns">
+        </div>
+    </section>
+</main>
+<template id="info-item-template">
+    <li class="info-item">
+        <div class="info-item__name"></div>
+        <div class="info-item__value"></div>
+    </li>
+</template>
+<template id="city-weather-template">
+    <div class="city-weather">
+        <div class="preloader preloader-visible"></div>
+        <div class="city-weather__top-block">
+            <h3 class="bold-title top-block__city-name"></h3>
+            <div class="degrees"></div>
+            <div class="icon-container"><img src="0013.ico" class="mini-weather-icon"></div>
+            <div class="delete-button">+</div>
+        </div>
+        <div class="error-info"></div>
+        <ul class="weather-info">
+        </ul>
+    </div>
+</template>
+</body>
+</html>

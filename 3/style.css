@@ -1,0 +1,287 @@
+* {
+    box-sizing: border-box;
+}
+
+button {
+    font: inherit;
+    padding: 0;
+    border: none;
+}
+
+button:active,
+button:focus {
+    outline: none;
+}
+
+ul {
+    padding: 0;
+}
+
+ul li {
+    list-style-type: none;
+}
+
+h1,
+h2,
+h3 {
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
+.main-wrapper {
+    padding: 20px;
+    border-top: 2px solid #ccc;
+}
+
+.vl {
+    position: absolute;
+    margin-top: -21px;
+    margin-left: -20px;
+    border-left: 1px solid #ccc;
+    width: 1px;
+    height: 700px;
+}
+
+.top-weather__top-block {
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.arrows-ico {
+    display: none;
+}
+
+.nobold-title {
+    font-size: 32px;
+    color: #828282;
+    flex-basis: 40%;
+    font-weight: normal;
+}
+
+.grey-btn {
+    border-radius: 5px;
+    background-color: #d2d2d2;
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    color: #929292;
+    cursor: pointer;
+}
+
+.grey-btn-text {
+    margin: auto 30px;
+}
+
+.bold-title {
+    font-size: 32px;
+    color: #828282;
+    font-weight: bold;
+}
+
+.top-weather__main-block {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.top-weather__left-block {
+    flex-basis: 45%;
+}
+
+.top-weather__right-block {
+    flex-basis: 45%;
+}
+
+.top-weather__left-block_main {
+    height: 80%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.weather-icon {
+    max-width: 128px;
+    height: auto;
+}
+
+.big-degrees {
+    color: #777777;
+    font-weight: bold;
+    font-size: 96px;
+}
+
+.top-weather__right-block {
+
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #aeaeae;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.info-item__name {
+    font-weight: bold;
+}
+
+.favorites__top-block {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.add-new-town {
+    flex-basis: 33%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.new-town {
+    border: none;
+    background-color: #ccc;
+    padding: 10px;
+    flex-basis: 80%;
+}
+
+.add-new-button {
+    font-size: 16px;
+    border: none;
+    color: white;
+    background-color: #777;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.city-weather-wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.city-weather {
+    flex-basis: 45%;
+    margin-bottom: 30px;
+    position: relative;
+    min-height: 345px;
+}
+
+.city-weather__top-block {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    height: 80px;
+}
+
+.top-block__city-name {
+    flex-basis: 33%;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.degrees {
+    color: #777777;
+    font-weight: bold;
+    font-size: 36px;
+    margin-top:auto;
+    margin-bottom: auto;
+}
+
+.delete-button {
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #777;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: center;
+    line-height: 32px;
+    transform: rotate(45deg);
+    cursor: pointer;
+}
+
+.icon-container {
+    height: auto;
+    margin-top:auto;
+    margin-bottom: auto;
+}
+
+.mini-weather-icon {
+    display: block;
+    max-width: 36px;
+    height: auto;
+}
+
+.preloader {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 999;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    background: #fff url('//cdnjs.cloudflare.com/ajax/libs/file-uploader/3.7.0/processing.gif') no-repeat center center;
+}
+
+.preloader-visible {
+    visibility: visible;
+    opacity: 1;
+    /*transition: opacity 2s linear;*/
+}
+
+.preloader-hidden {
+    visibility: hidden;
+    opacity: 0;
+    /*transition: visibility 0s 2s, opacity 2s linear;*/
+}
+
+@media (max-width: 768px) {
+    .top-weather__left-block,
+    .top-weather__right-block,
+    .city-weather {
+        flex-basis: 100%;
+    }
+
+
+    .favorites__top-block {
+        flex-wrap: wrap;
+    }
+
+    .add-new-town {
+        margin-top: 20px;
+        flex-basis: 100%;
+    }
+
+    .top-weather__top-block {
+        justify-content: space-between;
+    }
+
+    .weather-here {
+        flex-basis: auto;
+    }
+
+    .grey-btn-text {
+        display: none;
+    }
+
+    .arrows-ico {
+        display: block;
+        max-width: 40px;
+        margin: auto 5px;
+        height: auto;
+    }
+}
+
