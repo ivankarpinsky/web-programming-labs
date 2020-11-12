@@ -224,6 +224,9 @@ h3 {
         flex-basis: 100%;
     }
 
+    .new-town {
+        flex-basis: 92%;
+    }
 
     .favorites__top-block {
         flex-wrap: wrap;
@@ -231,7 +234,7 @@ h3 {
 
     .add-new-town {
         margin-top: 20px;
-        flex-basis: 93%;
+        flex-basis: 100%;
     }
 
     .top-weather__top-block {
