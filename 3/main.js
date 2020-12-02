@@ -1,26 +1,17 @@
 window.onload = async function () {
-    // add one is ok
-
-    let response2 = await fetch('http://localhost:3000/favourites');
-    var towns = await response2.json();
-    console.log(towns);
-    // add one is ok
-
     let cookAgree = getCookie('agree');
+
     let agree = cookAgree ? true : confirm('Согласны ли вы предоставить данные о вашей геолокации');
     if (agree) {
         setCookie('agree', true);
         navigator.geolocation.getCurrentPosition(async (position) => {
-            let response = await fetch(`http://localhost:3000/weather/coordinates?lat=${position.coords.latitude}&lon=${position.coords.longitude}`);
-
-            if (response.ok) {
-                let json = await response.json();
-                setCurrentWeather(json);
-
-                console.log(json);
-            } else {
-                alert("Ошибка HTTP: " + response.status);
-            }
+            fetch(`http://localhost:3000/weather/coordinates?lat=${position.coords.latitude}&lon=${position.coords.longitude}`)
+                .then(async response => {
+                    setCurrentWeather(await response.json());
+                })
+                .catch(async err => {
+                    console.log(err);
+                });
         });
     } else {
         let response = await fetch(`http://localhost:3000/weather/city?q=Saint Petersburg`);
@@ -33,27 +24,58 @@ window.onload = async function () {
 
     setFavoritesWeather();
 
-    let newTownButton = document.getElementById('add-new-town-button');
-    let newTownInput = document.getElementById('add-new-town-input');
-    newTownButton.onclick = async (e) => {
+    let addForm = document.getElementById('add-new-town-form');
+    addForm.addEventListener('submit', async function (e) {
         e.preventDefault();
-        let response = await fetch('http://localhost:3000/favourites', {
+        let newTownInput = this.querySelector('#add-new-town-input');
+        let cityName = newTownInput.value.toLowerCase();
+
+        await fetch('http://localhost:3000/favourites', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             },
-            body: JSON.stringify({name: newTownInput.value})
+            body: JSON.stringify({name: cityName})
+        }).then(async function(response) {
+            if (!response.ok) {
+                alert('Данный город уже есть в избранных');
+            } else {
+                await addCardToList(document.getElementById('favorite-towns'), cityName);
+            }
+        }).catch(async function(err) {
+            alert('Не удалось получить данные по указанному городу');
         });
-        if (!response.ok) {
-            alert('Данный город уже есть в избранных');
-        }
-        location.reload();
-    };
+
+    });
     let reloadButton = document.getElementById('reload-geo');
-    reloadButton.onclick = function () {
-        setCookie('agree', true, -1);
-        location.reload();
-    }
+    reloadButton.addEventListener('click', async function () {
+        let preloader = document.querySelector('#preloader-top');
+        preloader.classList.remove('preloader-hidden');
+        preloader.classList.add('preloader-visible');
+        if (getCookie('agree') || confirm('Согласны ли вы предоставить данные о вашей геолокации')) {
+            setCookie('agree', true);
+            navigator.geolocation.getCurrentPosition(async (position) => {
+                let response = await fetch(`http://localhost:3000/weather/coordinates?lat=${position.coords.latitude}&lon=${position.coords.longitude}`);
+
+                if (response.ok) {
+                    let json = await response.json();
+                    setCurrentWeather(json);
+
+                    console.log(json);
+                } else {
+                    alert("Ошибка HTTP: " + response.status);
+                }
+            });
+        } else {
+            let response = await fetch(`http://localhost:3000/weather/city?q=Saint Petersburg`);
+            setCookie('agree', true, -1);
+            if (response.ok) {
+                let json = await response.json();
+                setCurrentWeather(json);
+                console.log(json);
+            }
+        }
+    });
 };
 
 function setCurrentWeather(data) {
@@ -66,8 +88,9 @@ function setCurrentWeather(data) {
     degrees.innerText = data.list[0].main.temp + '° C';
 
     let topRightBlock = document.querySelector("#top-weather__right-block");
+    topRightBlock.innerHTML = '';
     setCardInfo(topRightBlock, data);
-    let preloader = document.querySelector('.preloader');
+    let preloader = document.querySelector('#preloader-top');
     preloader.classList.remove('preloader-visible');
     preloader.classList.add('preloader-hidden');
 }
@@ -109,24 +132,50 @@ async function setFavoritesWeather() {
     console.log(towns);
     if (towns == null) return;
     let favorites = document.querySelector('#favorite-towns');
-    let clones = [];
 
     for (const townObj of towns) {
         let town = townObj.name;
-        let response = await fetch(`http://localhost:3000/weather/city?q=${town}`);
-        let townTemplate = document.querySelector('#city-weather-template');
-        let emptyTown = townTemplate.cloneNode(true);
-        let data, cityName, degrees, img, ul;
+        await addCardToList(favorites, town);
+    }
+}
 
-        if (response.ok) {
+async function addCardToList(favorites, town) {
+    let townTemplate = document.querySelector('#city-weather-template');
+    let emptyTown = townTemplate.cloneNode(true);
+    let data, cityName, degrees, img, ul;
+    favorites.appendChild(document.importNode(emptyTown.content, true));
+
+    await fetch(`http://localhost:3000/weather/city?q=${town}`)
+        .then(async response => {
             data = await response.json();
-            favorites.appendChild(document.importNode(emptyTown.content, true));
+            console.log(data);
+            if (data.error == 'City not found') {
+                cityName = townTemplate.content.querySelector('.top-block__city-name');
+                cityName.innerText = town;
+                degrees = townTemplate.content.querySelector('.degrees');
+                img = townTemplate.content.querySelector('img');
+                ul = townTemplate.content.querySelector('ul');
+                degrees.innerHTML = '';
+                ul.innerHTML = '';
+                img.src = '';
+
+                let errorMessage = townTemplate.content.querySelector('.error-info');
+                errorMessage.innerHTML = 'Данного города не существует';
+                let preloader = townTemplate.content.querySelector('.preloader');
+                preloader.classList.remove('preloader-visible');
+                preloader.classList.add('preloader-hidden');
+                favorites.removeChild(favorites.lastElementChild);
+                favorites.appendChild(document.importNode(townTemplate.content, true));
+                errorMessage.innerHTML = '';
+                preloader.classList.add('preloader-visible');
+                preloader.classList.remove('preloader-hidden');
+                return;
+            }
             cityName = townTemplate.content.querySelector('.top-block__city-name');
             degrees = townTemplate.content.querySelector('.degrees');
             img = townTemplate.content.querySelector('img');
             ul = townTemplate.content.querySelector('ul');
             ul.innerHTML = '';
-
 
             setCardInfo(ul, data);
 
@@ -134,15 +183,16 @@ async function setFavoritesWeather() {
             img.src = 'http://openweathermap.org/img/wn/' + data.list[0].weather[0].icon + '@2x.png';
             degrees.innerText = data.list[0].main.temp + '° C';
             let preloader = townTemplate.content.querySelector('.preloader');
+
             preloader.classList.remove('preloader-visible');
             preloader.classList.add('preloader-hidden');
-            await sleep(500);
             favorites.removeChild(favorites.lastElementChild);
             favorites.appendChild(document.importNode(townTemplate.content, true));
             preloader.classList.add('preloader-visible');
             preloader.classList.remove('preloader-hidden');
-        } else {
-            favorites.appendChild(document.importNode(emptyTown.content, true));
+        })
+        .catch(async err => {
+            console.log(err);
             cityName = townTemplate.content.querySelector('.top-block__city-name');
             cityName.innerText = town;
             degrees = townTemplate.content.querySelector('.degrees');
@@ -152,36 +202,36 @@ async function setFavoritesWeather() {
             ul.innerHTML = '';
             img.src = '';
 
-
             let errorMessage = townTemplate.content.querySelector('.error-info');
-            errorMessage.innerHTML = 'По данному городу не удалось загрузить данные с api';
+            errorMessage.innerHTML = 'Не удалось загрузить данные';
             let preloader = townTemplate.content.querySelector('.preloader');
             preloader.classList.remove('preloader-visible');
             preloader.classList.add('preloader-hidden');
-            await sleep(500);
             favorites.removeChild(favorites.lastElementChild);
             favorites.appendChild(document.importNode(townTemplate.content, true));
             errorMessage.innerHTML = '';
             preloader.classList.add('preloader-visible');
             preloader.classList.remove('preloader-hidden');
-            console.log("Города нет в апи: " + town + '  ' + response.status);
-        }
-    }
+        });
 
     let deleteButtons = document.getElementsByClassName('delete-button');
     for (let j = 0; j < deleteButtons.length; j++) {
-        deleteButtons[j].onclick = async (e) => {
-            let cityName = deleteButtons[j].previousElementSibling.previousElementSibling.previousElementSibling;
-            console.log(cityName);
+        deleteButtons[j].addEventListener('click', async function (e) {
+            e.preventDefault();
+            let cityName = deleteButtons[j].previousElementSibling.previousElementSibling.previousElementSibling.innerText;
+            let weatherBlock = this.parentElement.parentElement;
+            cityName = cityName.toLowerCase();
+
             let response = await fetch('http://localhost:3000/favourites', {
                 method: 'delete',
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8'
                 },
-                body: JSON.stringify({name: cityName.innerText})
+                body: JSON.stringify({name: cityName})
             });
-            location.reload();
-        };
+
+            weatherBlock.parentElement.removeChild(weatherBlock);
+        });
     }
 }
 
